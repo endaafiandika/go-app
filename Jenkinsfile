@@ -82,7 +82,19 @@ pipeline {
             }
             steps{
                script {
-                   sh "sudo kubectl apply -f deploy-k8s.yaml"  
+                    sshPublisher(
+                        publishers: [
+                            sshPublisherDesc(
+                                configName: 'deploy',
+                                verbose: false,
+                                transfers: [
+                                    sshTransfer(
+                                        execCommand: 'cd go-app; docker run -d -p 8080:8080 endaafiandika/go-app:1',
+                                    )
+                                ]
+                            )
+                        ]
+                    )
                 }
             }
         }
