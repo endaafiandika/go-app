@@ -25,7 +25,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	// Create Server and Route Handlers
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", handler)
@@ -37,19 +36,17 @@ func main() {
 		WriteTimeout: 10 * time.Second,
 	}
 
-	// Configure Logging
 	LOG_FILE_LOCATION := os.Getenv("LOG_FILE_LOCATION")
 	if LOG_FILE_LOCATION != "" {
 		log.SetOutput(&lumberjack.Logger{
 			Filename:   LOG_FILE_LOCATION,
-			MaxSize:    500, // megabytes
+			MaxSize:    500,
 			MaxBackups: 3,
-			MaxAge:     28,   //days
-			Compress:   true, // disabled by default
+			MaxAge:     28,
+			Compress:   true,
 		})
 	}
 
-	// Start Server
 	go func() {
 		log.Println("Starting Server")
 		if err := srv.ListenAndServe(); err != nil {
@@ -57,7 +54,6 @@ func main() {
 		}
 	}()
 
-	// Graceful Shutdown
 	waitForShutdown(srv)
 }
 
@@ -65,10 +61,8 @@ func waitForShutdown(srv *http.Server) {
 	interruptChan := make(chan os.Signal, 1)
 	signal.Notify(interruptChan, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
-	// Block until we receive our signal.
 	<-interruptChan
 
-	// Create a deadline to wait for.
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 	srv.Shutdown(ctx)
