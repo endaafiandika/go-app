@@ -82,7 +82,7 @@ pipeline {
             }
             steps{
                script {
-                   sh "cd go-app; sudo kubectl apply -f deploy-k8s.yaml"  
+                   sh "sudo kubectl apply -f deploy-k8s.yaml"  
                 }
             }
         }
