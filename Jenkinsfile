@@ -89,7 +89,7 @@ pipeline {
                                 verbose: false,
                                 transfers: [
                                     sshTransfer(
-                                        execCommand: 'cd go-app; docker run -d -p 8080:8080 go-app:1',
+                                        execCommand: 'cd go-app; docker run -d -p 8080:8080 endaafiandika/go-app:1',
                                     )
                                 ]
                             )
