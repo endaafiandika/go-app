@@ -18,12 +18,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	name := query.Get("name")
 	if name == "" {
-		name = "friend"
+		name = "friend V:1.0"
 	}
 	log.Printf("Received request for %s\n", name)
 	w.Write([]byte(fmt.Sprintf("Hello, %s\n", name)))
 }
-
+S
 func main() {
 	r := mux.NewRouter()
 
